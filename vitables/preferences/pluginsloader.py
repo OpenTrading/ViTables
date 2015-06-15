@@ -51,6 +51,7 @@ import os
 import importlib
 import pkgutil
 import sys
+import traceback
 
 from PyQt4 import QtGui
 
@@ -78,9 +79,11 @@ def pluginDesc(mod_path, folder=None):
         imported_module = importlib.import_module(mod_path)
         if type(imported_module) != type(os):
             raise ImportError
-    except (SyntaxError, ImportError, IOError, SystemError):
+    except Exception:
         LOGGER.error("""Failed to load the module {0} which belongs to a plugin
-                     .\ntraceback: {1}""".format(mod_path, sys.exc_info()[:2]))
+                     .\ntraceback: {1}""".format(mod_path,
+                                                 #sys.exc_info()[:2]
+                                                 traceback.format_exc(10) +"\n"))
         return False
 
     # Check if module is a plugin
@@ -131,6 +134,8 @@ def scanFolder(package_root):
         LOGGER.error('Failed to find a plugin in folder {folder}:'
                      'Folder does not exist'.format(folder))
     else:
+        if folder not in sys.path:
+            sys.path.insert(0, folder)
         for module_finder, name, ispkg in pkgutil.iter_modules([folder]):
             if not ispkg:
                 module_path = '.'.join(['vitables', 'plugins', package_root,

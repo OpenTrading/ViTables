@@ -1,3 +1,6 @@
+This is a fork of https://github.com/uvemas/ViTables
+There is no development here, it serves as a basis for pull requests.
+
 ViTables
 --------
 ViTables is a graphical tool for browsing and editing files in both PyTables

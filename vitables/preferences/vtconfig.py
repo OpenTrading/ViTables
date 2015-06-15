@@ -88,7 +88,7 @@ setting into the config file.
 """
 
 __docformat__ = 'restructuredtext'
-__version__ = '2.1'
+__version__ = '2.1git'
 
 import sys
 
